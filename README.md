@@ -1,5 +1,6 @@
 # cx-lang
 www.cx-lang.com
+
 A Front-End to LVVM to Compile an Extend C Based Language.
 CX is an Oriented Object Language with Moderns Languages features.
 
@@ -27,13 +28,13 @@ for (int i = 0; i < personsCount; i++){
 ```
 
 CX
-````
+````c
 Person p = persons[ name == "luiz" ]
 ````
 
 
 UPDATE CONTENT (Using the STREAMS OPERATOR IN C++)
-````
+````javascript
 myPerson << { name : "luiz", lastname : "fratoni", email : "luizfratoni@gmail.com" }
 persons[20] << { name : "luiz", lastname : "fratoni", email : "luizfratoni@gmail.com" }
 persons[ id == 30 ] << { ... }
@@ -43,7 +44,7 @@ persons[ age > 18] << { adult : true }
 
 
 QUERIES (Using the STREAMS OPERATOR IN C++)
-```````
+```````javascript
   var data << persons[1..15] { name, lastName, phones [ active == true] { phoneNumber, prefix } }
   
   var data << persons[ name startsWith "a%" ] { name, lastName, phones [ active == true] { phoneNumber, prefix } }
