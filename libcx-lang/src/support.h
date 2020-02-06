@@ -75,8 +75,8 @@ struct CxObj_T {
 
 
 
-#define CxObj_AddRef(obj) ( (struct CxObj_T *) obj)->interf->addRef(obj)
-#define CxObj_Release(obj) ( (struct CxObj_T *) obj)->interf->release(obj)
+#define CxAddRef(obj) ( (struct CxObj_T *) obj)->interf->addRef(obj)
+#define CxRelease(obj) ( (struct CxObj_T *) obj)->interf->release(obj)
 #define CxCast(obj, clsid, robj) ( (struct CxObj_T *) obj)->interf->queryInterface(obj, clsid, robj) 
 
 #define CxSignal(obj, ...) ( (struct CxObj_T *) obj)->interf->signal(obj, __VA_ARGS__)

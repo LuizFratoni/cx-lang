@@ -13,9 +13,9 @@ namespace Cx {
     protected:
 
         inline void init(CxObj obj){
-            if (self != 0) CxObj_Release(self);
+            if (self != 0) CxRelease(self);
             self = obj;
-            if (self != 0) CxObj_AddRef(self);
+            if (self != 0) CxAddRef(self);
         }
 
     public:
@@ -25,13 +25,13 @@ namespace Cx {
         }
 
         Object(const Object &o){
-            if (self != 0) CxObj_Release(self);
+            if (self != 0) CxRelease(self);
             self = o.self;
-            if (self != 0) CxObj_AddRef(self);
+            if (self != 0) CxAddRef(self);
         }
 
         ~Object(){
-            if (self != 0) CxObj_Release(self);
+            if (self != 0) CxRelease(self);
         }
 
         bool cast(const char* type, Object &result){

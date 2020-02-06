@@ -38,7 +38,7 @@ namespace Cx {
             CxBundle_CreateClass(obj, name);
         }
 
-
+        
     };
 
 

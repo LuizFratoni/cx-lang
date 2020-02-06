@@ -31,7 +31,8 @@ CxObj    CxString(const char* );
 CxObj    CxInt(int v);
 CxObj    CxFloat(float f);
 CxObj    CxDouble(double );
-
+CxObj    CxLong(long long l);
+CxObj    CxBoolean(CxBool b);
 
 #ifdef __cplusplus
 } 
