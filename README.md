@@ -58,6 +58,18 @@ QUERIES (Using the STREAMS OPERATOR IN C++)
  } from os [status == “OF”]
 
  var listOS << os[1,2,3,4,5,10,15,23];
-   
+
+
+``````
+RELATIONAL QUERIES
+```````c++
+
+var result := {
+     id : o.id, 
+     customer : c.name,
+     vehicle : v.vehicle + " " + v.model
+} from orders(o) left join customers(c) 
+  where o.status == 'OF' && c.active == true
+
 
 ``````
