@@ -4,14 +4,12 @@
 #include <stdio.h>
 
 
-CxObj CxCreate_Bundle(const char* name, const char* desc, const char* version){
+CxObj CxCreate_Module(const char* name,const char* version){
     printf("(CxBundle) Criando Bundle %s\n", name);
     CxBundle bundle = calloc( sizeof(struct CxBundle_T), 1);
     bundle->name = (char* ) malloc(strlen(name));
-    bundle->desc = (char* ) malloc(strlen(desc));
     bundle->version = (char* ) malloc(strlen(version));
     strcpy(bundle->name, name);
-    strcpy(bundle->desc, desc);
     strcpy(bundle->version, version);
     return bundle;
 }

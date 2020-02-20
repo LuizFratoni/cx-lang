@@ -86,7 +86,7 @@ typedef struct CxConstantExp_T {
 typedef struct CxDeclareExp_T {
     uint type;
     void *next;
-    CxName type, name;
+    CxName typeName, name;
 } *CxDeclareExp;
 
 
@@ -108,7 +108,7 @@ typedef struct CxUnaryOperation_T {
     void *next;
     uint op;
     CxExpression left;
-};
+} *CxUnaryOperation;
 
 typedef struct CxBinaryOperation_T {
     uint type;
@@ -116,7 +116,7 @@ typedef struct CxBinaryOperation_T {
     uint op;
     CxExpression left;
     CxExpression right;
-};
+} *CxBinaryOperation;
 
 
 //// CLASS DEFINITION
@@ -192,14 +192,16 @@ typedef struct CxBundle_T {
 } *CxBundle;
 
 
+
+
 //////
 
-
+/*
 CxBundle CxCreate_Bundle(const char* name, const char* desc, const char* version);
-CxSource CxCreate_SourceFromString(CxBundle bnd, const char *name, const char *src);
-CxSource CxCreate_SourceFromFile(CxBundle bnd, const char* filename);
-CxSource CxCreate_SourceFromBuffer(CxBundle bnd, const char *name, uint size, void* buffer);
-
+CxSource CxCreate_SourceFromString(CxScope bnd, const char *name, const char *src);
+CxSource CxCreate_SourceFromFile(CxScope bnd, const char* filename);
+CxSource CxCreate_SourceFromBuffer(CxScope bnd, const char *name, uint size, void* buffer);
+*/
 
 #endif
 
