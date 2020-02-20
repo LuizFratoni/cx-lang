@@ -1,57 +1,64 @@
 #ifndef _CX_PARSER_H
 #define _CX_PARSER_H
 
-typedef void * CxObj;
-typedef char CxBool;
-
-#define CX_TRUE  1
-#define CX_FALSE 0
-
-#define CxTrue  0xff
-#define CxFalse 0
+#include "aot.h"
 
 
-typedef struct CxExpression_T {
-    unsigned char type;
-    void *next;
-} *CxExpresion;
-
-typedef struct CxAssignExp_T{
-    unsigned char type;
-    void *next;
-    CxEpression left;
-    CxEpression right;
-} *CxAssignExp;
-
-typedef struct CxConstantExp_T {
-    unsigned char type;
-    void *next;
-    unsigned char valueType;
-} *CxConstantExp;
-
-typedef struct CxDeclareExp_T {
-    unsigned char type;
-    void *next;
-    CxName type, name;
-} *CxDeclareExp;
-
-typedef struct CxName_T { 
-    unsigned char type;
-    void *next;
+typedef struct CxField_T {
+    uint type;
+    CxObj next;
     char *name;
-    int size;
-} *CxName;
+    char *typeName;
+    unsigned int addr;
+} * CxField;
+
+typedef struct CxProperty_T {
+
+} *CxProperty;
+
+typedef struct CxParam_T {
+    uint type;
+    CxObj next;
+    char *name;
+    char *typeName;
+} *CxParam;
+
+typedef struct CxMethod_T {
+    uint type;
+    CxObj next;
+    char *clsName;
+    char *typeName;
+} *CxMethod;
+
+typedef struct CxClass_T {
+    char *name;
+
+} *CxClass;
 
 
-typedef struct CxInvokeExp_T {
-    unsigned char type;
-    void *next;
-    CxExpresion parent;
-    CxEpression params;
+typedef struct CxLog_T {
+    char type;
+    unsigned int col, line;
+    char *text;
+    CxObj next;
+} * CxLog;
 
-} *CxInvokeExp;
+typedef struct CxParser_T {
 
+    char *name;
+    char *data;
+    unsigned int line, col;
+    unsigned int size;
+    char *cur;
+    char *end;
+    char curCh;
+    unsigned int errors, warns;
 
+    CxObj nextFile;
+    CxBool success;
+    CxName imports;
+
+} *CxParser;
 
 
 CxBool CxTk_ReadName(CxParser, CxName* name);
@@ -60,7 +67,11 @@ CxBool CxTk_EscapeBlanks(CxParser);
 CxBool CxTk_WaitLineEnd(CxParser, *CxBool);
 CxBool CxTk_NextLine(CxParser);
 
-CxParser 
+CxParser CxParser_CreateFromString(const char*);
+CxParser CxParser_CreateFromFile(const char*);
+
+CxParser CxParser_ParseSource(CxParser); //ParseUnit, ParseFile
+CxParser CxParser_ParseStatement(CxParser, Statement *);
 
 
 #endif
