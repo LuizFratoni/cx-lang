@@ -48,5 +48,16 @@ QUERIES (Using the STREAMS OPERATOR IN C++)
   var data << persons[1..15] { name, lastName, phones [ active == true] { phoneNumber, prefix } }
   
   var data << persons[ name startsWith "a%" ] { name, lastName, phones [ active == true] { phoneNumber, prefix } }
+
+  var data << person[ birthday == today | max(15) order(name asc)   ] 
   
+  var newDict = { 
+    veiculo : os.placa + “ - “ + os.marca,
+    Valor : os.2000,
+    double total : 0, 
+ } from os [status == “OF”]
+
+ var listOS << os[1,2,3,4,5,10,15,23];
+   
+
 ``````
