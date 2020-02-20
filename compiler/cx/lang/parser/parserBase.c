@@ -11,8 +11,18 @@
 
 
 ////////////////////////////////////////
+CxBool CxTk_Nex(CxParser parser){
+    if (parser->curCh == 10){
+        parser->line++;
+        parser->col = 0;
+    }
+    if (parser->cur < parser->end){
+        parser->cur++;
+        parser->curCh = *parser->cur;
+    } else return false;
+}
 
-CxBool nextLine(CxParser parser){
+CxBool CxTk_NextLine(CxParser parser){
     while ( parser->cur < parser->end ) {
         if (parser->curCh == 10){
             parser->line++;
@@ -29,13 +39,13 @@ CxBool nextLine(CxParser parser){
 }
 
 
-CxBool escapeBlanks(CxParser parser){
+CxBool CxTk_EscapeBlanks(CxParser parser){
     printf("Escape Blanks\n");
 
     while ( parser->cur < parser->end ) {
         printf("-");
 
-
+        parser->col++;
         if (parser->curCh == 10){
             parser->line++;
             parser->col = 0;
@@ -45,7 +55,7 @@ CxBool escapeBlanks(CxParser parser){
         } else {
             return CxTrue;
         }
-
+        
         parser->cur++;
         parser->curCh = *parser->cur;
     }
@@ -55,14 +65,13 @@ CxBool escapeBlanks(CxParser parser){
     return CxFalse;
 }
 
-CxBool escapeBlanksOrWaitEnd(CxParser parser, CxBool *lineEnd){
+CxBool CxTk_WaitNextLine(CxParser parser, CxBool *lineEnd){
     printf("Escape Blanks\n");
 
     *lineEnd = CxFalse;
     while ( parser->cur < parser->end ) {
-        printf("-");
 
-
+        parser->col++;
         if (parser->curCh == 10){
             parser->line++;
             parser->col = 0;
@@ -90,12 +99,13 @@ CxBool escapeBlanksOrWaitEnd(CxParser parser, CxBool *lineEnd){
     return CxFalse;
 }
 
-CxBool readText(CxParser parser, CxName *result){
+CxBool CxTk_ReadName(CxParser parser, CxName *result){
     
     char *begin = parser->cur;
 
 
     while (parser->cur < parser->end){
+        parser->col++;
         if ( IS_ALPHA_NUMERIC(parser) ){
             parser->cur++;
             parser->curCh = *parser->cur;
@@ -133,9 +143,9 @@ CxBool CxParser_ReadImports(CxParser parser){
     CxBool lineEnd = CxFalse;
 
     printf("- Reading import");
-    if (escapeBlanks(parser)){
-        if ( readText(parser, &lastName) ){
-            while ( escapeBlanksOrWaitEnd(parser, &lineEnd)){
+    if (CxTk_EscapeBlanks(parser)){
+        if ( CxTk_ReadName(parser, &lastName) ){
+            while ( CxTk_WaitNextLine(parser, &lineEnd)){
                 if (lineEnd) {
                     lastName->next = parser->imports;
                     parser->imports = lastName;
@@ -143,7 +153,7 @@ CxBool CxParser_ReadImports(CxParser parser){
                 }
                 if (parser->curCh == ',' ){
                     parser->cur++; parser->curCh = *parser->cur;
-                    if (escapeBlanks(parser)){
+                    if (CxTk_EscapeBlanks(parser)){
                         if ( IS_ALPHA(parser) ){
                             readText(parser, &lastName);
                             lastName->next = parser->imports;
@@ -190,10 +200,10 @@ CxBool CxParse_Source(CxSource source, CxParser *result){
 
     CxBool body = CxFalse;
 
-    while (escapeBlanks(parser)){
+    while (CxTk_EscapeBlanks(parser)){
         printf("Caractere atual: %c", parser->curCh);
         if (IS_ALPHA(parser)){
-            if (readText(parser, &lastName)){
+            if (CxTk_ReadName(parser, &lastName)){
         
                 if (strcmp(lastName->name, "import") == 0){
                     CxParser_ReadImports(parser);
@@ -202,14 +212,14 @@ CxBool CxParse_Source(CxSource source, CxParser *result){
                 } else {
                     printf("Identificador nao existe '%s'.\n", lastName->name);
                     //CxParser_Error(parser, 'Unknow Identifier', ' ');
-                    if (!nextLine(parser)) break;
+                    if (!CxTk_NextLine(parser)) break;
                 }
                 printf("LIDO\n");
                 printf("Palavra encontrada: \"%s\"\n", lastName->name);
             } 
         } else {
             CxParser_Error(parser,"Specting an identifier but '%c' found.", parser->curCh);
-            if (!nextLine(parser)) break;
+            if (!CxTk_NextLine(parser)) break;
         }
 
  
