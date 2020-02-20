@@ -45,12 +45,8 @@ CxBool CxTk_Next(CxParser);
 CxBool CxTk_NextLine(CxParser);
 
 //typedef void CxParserLogEntry(CxObj inst, uint type, uint col, uint line, char *text);
-
-CxParser CxCreate_Parser();
-CxParser CxCreate_ParserWithLog(CxParserLogEntry* );
 void     CxParser_Error(CxParser parser, const char* msg, char ch);
-
-CxBool   CxParse_Source(CxSource, &CxParser);
+CxBool   CxParse_Source(CxSource, *CxParser);
 CxBool   CxParse_Statement(CxParser, CxStatement *result);
 
 #endif
