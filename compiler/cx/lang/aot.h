@@ -3,6 +3,52 @@
 
 #include "../support.h"
 
+#define CX_AOT_ELEMENT_NONE         0
+
+
+#define CX_AOT_EXPRESSION           1
+#define CX_AOT_IDENTIFIER           2    
+#define CX_EXP_CONSTANT             3
+#define CX_EXP_ASSIGN
+#define CX_EXP_DECLARATION
+#define CX_EXP_METHOD_INVOKE
+#define CX_EXP_OBJECT_MEMBER
+#define CX_EXP_MATH_OPERATION       
+#define CX_EXP_COND_OPERATION      
+#define CX_EXP_ARRAY_ITEM 
+
+#define CX_EXP_BULK_GET
+#define CX_EXP_BULK_SET
+#define CX_EXP_FIELD_SELECTION  
+
+#define CX_EXP_IF
+#define CX_EXP_FOR
+#define CX_EXP_WHILE
+#define CX_EXP_FOREACH
+
+
+#define CX_EXP_MATH_OPERATION_SUM
+#define CX_EXP_MATH_OPERATION_MINUS
+#define CX_EXP_MATH_OPERATION_MULT
+#define CX_EXP_MATH_OPERATION_DIV
+#define CX_EXP_MATH_OPERATION_REM
+#define CX_EXP_MATH_OPERATION_POWER
+
+#define CX_EXP_COND_OPERATION_EQUAL
+#define CX_EXP_COND_OPERATION_LESSOREQUAL
+#define CX_EXP_COND_OPERATION_BIGGEROREQUAL
+#define CX_EXP_COND_OPERATION_LESSER
+#define CX_EXP_COND_OPERATION_BIGGER
+#define CX_EXP_COND_OPERATION_REGEX
+#define CX_EXP_COND_OPERATION_NOT
+
+#define CX_AOT_BUNDLE_ELEMENT       2
+#define CX_AOT_ELEMENT_CLASS        3
+#define CX_AOT_ELEMENT_FIELD        4
+#define CX_AOT_ELEMENT_METHOD       5
+#define CX_AOT_ELEMENT_PROPERTY     6
+#define CX_AOT_ELEMENT_ANNOTATION   7
+
 typedef struct CxAOTNode_T {
     uint type;
     void *next;
@@ -57,7 +103,20 @@ typedef struct CxInvokeExp_T {
 
 } *CxInvokeExp;
 
+typedef struct CxUnaryOperation_T {
+    uint type;
+    void *next;
+    uint op;
+    CxExpression left;
+};
 
+typedef struct CxBinaryOperation_T {
+    uint type;
+    void *next;
+    uint op;
+    CxExpression left;
+    CxExpression right;
+};
 
 
 //// CLASS DEFINITION
@@ -107,7 +166,7 @@ typedef struct CxClass_T {
     CxObj next;
     char *name;
     char *extends;
-    CxName *implements;
+    CxName implements;
     CxAnnotation annotations;
 } *CxClass;
 
@@ -118,7 +177,7 @@ typedef struct CxSource_T {
     char *fileName;
     char *data;
     uint size;
-    CxParser parser;
+    CxName   imports;
     CxClass  classes;
     CxMethod methods;
 } *CxSource;

@@ -6,7 +6,8 @@
 #include <string.h>
 
 
-#define IS_ALPHA(parser) (parser->curCh >= 65 && parser->curCh <= 90) || (parser->curCh >= 97 && parser->curCh <= 122) || (parser->curCh >= 48 && parser->curCh <= 57)
+#define IS_ALPHA(parser) (parser->curCh >= 65 && parser->curCh <= 90) || (parser->curCh >= 97 && parser->curCh <= 122) 
+#define IS_ALPHA_NUMERIC(parser) (parser->curCh >= 65 && parser->curCh <= 90) || (parser->curCh >= 97 && parser->curCh <= 122) || (parser->curCh >= 48 && parser->curCh <= 57)
 
 
 ////////////////////////////////////////
@@ -95,7 +96,7 @@ CxBool readText(CxParser parser, CxName *result){
 
 
     while (parser->cur < parser->end){
-        if ( IS_ALPHA(parser) ){
+        if ( IS_ALPHA_NUMERIC(parser) ){
             parser->cur++;
             parser->curCh = *parser->cur;
         } else {
