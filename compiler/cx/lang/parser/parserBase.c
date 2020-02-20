@@ -6,102 +6,7 @@
 #include <string.h>
 
 
-
-
 #define IS_ALPHA(parser) (parser->curCh >= 65 && parser->curCh <= 90) || (parser->curCh >= 97 && parser->curCh <= 122) || (parser->curCh >= 48 && parser->curCh <= 57)
-
-typedef struct CxName_T {
-    char *name;
-    int  size;
-    CxObj next;
-} *CxName;
-
-
-typedef struct CxField_T {
-    char *name;
-    char *typeName;
-    unsigned int addr;
-    CxObj next;
-} * CxField;
-
-typedef struct CxProperty_T {
-
-} *CxProperty;
-
-typedef struct CxParam_T {
-    char *name;
-    char *typeName;
-} *CxParam;
-
-typedef struct CxMethod_T {
-    char *clsName;
-    char *typeName;
-    CxObj next;
-} *CxMethod;
-
-typedef struct CxClass_T {
-    char *name;
-
-} *CxClass;
-
-
-typedef struct CxLog_T {
-    char type;
-    unsigned int col, line;
-    char *text;
-    CxObj next;
-} * CxLog;
-
-typedef struct CxParser_T {
-
-    char *name;
-    char *data;
-    unsigned int line, col;
-    unsigned int size;
-    char *cur;
-    char *end;
-    char curCh;
-    unsigned int errors, warns;
-
-    CxObj nextFile;
-    CxBool success;
-    CxName imports;
-
-} *CxParser;
-
-
-CxParser CxParser_CreateFromFile(const char* fileName){
-    CxParser parser = (CxParser) calloc(1, sizeof( struct CxParser_T ));
-    FILE * file = fopen(fileName, "r");
-    
-    fseek(file, 0, SEEK_END );
-    parser->size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-
-    parser->data = (void*) malloc(( parser->size));
-    
-    fread ( parser->data, parser->size, 1, file );
-    parser->cur = parser->data;
-
-    parser->end = parser->data+parser->size;
-    parser->curCh = *parser->cur;
-
-    return parser;
-}
-
-CxParser CxParser_CreateFromString(const char* str){
-    CxParser parser = (CxParser) calloc(1, sizeof( struct CxParser_T ));
-
-    parser->size = strlen(str);
-    parser->data = malloc( parser->size + 1);
-    strcpy(parser->data, str);
-    parser->cur = parser->data;
-    parser->end = parser->data+parser->size;
-    parser->curCh = *parser->cur;
-
-    return parser;
-}
-
 
 
 ////////////////////////////////////////
@@ -260,11 +165,23 @@ CxBool CxParser_ReadImports(CxParser parser){
     return CxTrue;
 }
 
-CxBool CxParser_
 
 
 
-CxBool CxParser_Begin(CxParser parser){
+CxBool CxParse_Source(CxSource source, CxParser *result){
+
+    CxParser parser = (CxParser) calloc(1, sizeof( struct CxParser_T ));
+    parser->size = source->size;
+    parser->data = source->data;
+    parser->src  = source;
+
+    parser->cur = parser->data;
+
+    parser->end = parser->data+parser->size;
+    parser->curCh = *parser->cur;
+
+    if (result != NULL) *result = parser;
+
     printf("Parsing...\n");
 
     CxName lastName;
@@ -308,17 +225,4 @@ CxBool CxParser_Begin(CxParser parser){
 
 
 
-
-
-int main(int argc, char** argv){
-    printf("Inicializando parser\n");
-
-    CxParser parser = CxParser_CreateFromString("import teste, alpha; \n class MyClass { } ");
-
-    CxParser_Begin(parser);
-
-    printf("Finalizado\n");
-    return 0;
-
-}
 

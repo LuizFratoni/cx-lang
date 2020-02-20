@@ -116,10 +116,12 @@ typedef struct CxSource_T {
     CxObj next;
     char *name;
     char *fileName;
+    char *data;
+    uint size;
     CxParser parser;
     CxClass  classes;
     CxMethod methods;
-} *CxSourceUnit;
+} *CxSource;
 
 typedef struct CxBundle_T {
     uint type;
@@ -128,9 +130,16 @@ typedef struct CxBundle_T {
     char *desc;
     char *version;
     struct CxClass_T* lastClass;
-    CxSourceUnit unities;
 } *CxBundle;
 
+
+//////
+
+
+CxBundle CxCreate_Bundle(const char* name, const char* desc, const char* version);
+CxSource CxCreate_SourceFromString(CxBundle bnd, const char *name, const char *src);
+CxSource CxCreate_SourceFromFile(CxBundle bnd, const char* filename);
+CxSource CxCreate_SourceFromBuffer(CxBundle bnd, const char *name, uint size, void* buffer);
 
 
 #endif

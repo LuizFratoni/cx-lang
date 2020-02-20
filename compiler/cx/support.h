@@ -51,6 +51,9 @@ typedef unsigned char           CxBool;
 #define null 0
 #define nil  0
 
+#define CxTrue  0xff
+#define CxFalse 0x00
+
 typedef void  cx_method(CxObj);
 typedef CxObj cx_cast(CxObj, CxCLSID, CxObj*);
 typedef CxObj cx_allocator();
