@@ -190,7 +190,7 @@ CxBool CxParse_Source(CxSource source, CxParser *result){
     CxParser parser = (CxParser) calloc(1, sizeof( struct CxParser_T ));
     parser->size = source->size;
     parser->data = source->data;
-    parser->src  = source;
+    //parser->src  = source;
 
     parser->cur = parser->data;
 
