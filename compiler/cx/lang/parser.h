@@ -36,7 +36,7 @@ typedef struct CxParser_T {
 } *CxParser;
 
 
-
+char   CxTk_GetCh(CxParser);
 CxBool CxTk_ReadName(CxParser, CxName* name);
 //CxBool CxTk_ReadValue(CxParser);
 CxBool CxTk_EscapeBlanks(CxParser);

@@ -11,7 +11,12 @@
 
 
 ////////////////////////////////////////
-CxBool CxTk_Nex(CxParser parser){
+
+char CxTk_GetCh(CxParser parser){
+    return parser->curCh;   
+}
+
+CxBool CxTk_Next(CxParser parser){
     if (parser->curCh == 10){
         parser->line++;
         parser->col = 0;
@@ -19,7 +24,8 @@ CxBool CxTk_Nex(CxParser parser){
     if (parser->cur < parser->end){
         parser->cur++;
         parser->curCh = *parser->cur;
-    } else return false;
+        return CxTrue;
+    } else return CxFalse;
 }
 
 CxBool CxTk_NextLine(CxParser parser){
