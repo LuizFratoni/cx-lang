@@ -40,13 +40,13 @@ char   CxTk_GetCh(CxParser);
 CxBool CxTk_ReadName(CxParser, CxName* name);
 //CxBool CxTk_ReadValue(CxParser);
 CxBool CxTk_EscapeBlanks(CxParser);
-CxBool CxTk_WaitNextLine(CxParser, *CxBool);
+CxBool CxTk_WaitNextLine(CxParser, CxBool*);
 CxBool CxTk_Next(CxParser);
 CxBool CxTk_NextLine(CxParser);
 
 //typedef void CxParserLogEntry(CxObj inst, uint type, uint col, uint line, char *text);
 void     CxParser_Error(CxParser parser, const char* msg, char ch);
-CxBool   CxParse_Source(CxSource, *CxParser);
+CxBool   CxParse_Source(CxSource, CxParser*);
 CxBool   CxParse_Statement(CxParser, CxStatement *result);
 
 #endif
