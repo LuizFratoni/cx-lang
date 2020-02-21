@@ -1,19 +1,18 @@
 
-all: prepare bundle.o parserBase.o sourcerParser.o statementParser.o
-	g++ -o release/cx release/obj/*.o
-
+all: prepare scope.o parserBase.o 
+	@echo "Preparing All..."
 
 prepare:
-	mkdir -p release
-	mkdir -p release/obj	
-	rm -f release/obj/*.*
-	rm -f release/cx
+	@mkdir -p release
+	@mkdir -p release/obj	
+	@rm -f release/obj/*.*
+	@rm -f release/cx
 
-bundle.o: 
-	gcc -c cx/lang/bundle.c -o release/obj/bundle.o
+scope.o: 
+	gcc -c cx/lang/scope.c -o release/obj/scope.o
 
 parserBase.o:
-	gcc -c cx/lang/parserBase.c -o release/obj/parserBase.o
+	gcc -c cx/lang/parser/parserBase.c -o release/obj/parserBase.o
 
 sourcerParser.o:
 	gcc -c cx/lang/sourceParser.c -o release/obj/sourceParser.o
@@ -21,6 +20,12 @@ sourcerParser.o:
 statementParser.o:
 	gcc -c cx/lang/statementParser.c -o release/obj/statementParser.o
 
+
+simpleClass: prepare parserBase.o scope.o
+	gcc -c tests/simpleClass.c -o release/obj/simpleClass.o
+	g++ -o release/simpleClass release/obj/*.o
+	@echo "\n\n********************************************************************************\n"
+	@./release/simpleClass
 
 
 

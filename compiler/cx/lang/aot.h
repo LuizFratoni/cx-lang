@@ -191,17 +191,17 @@ typedef struct CxBundle_T {
     struct CxClass_T* lastClass;
 } *CxBundle;
 
-
+typedef void *CxScope;
 
 
 //////
 
-/*
-CxBundle CxCreate_Bundle(const char* name, const char* desc, const char* version);
-CxSource CxCreate_SourceFromString(CxScope bnd, const char *name, const char *src);
-CxSource CxCreate_SourceFromFile(CxScope bnd, const char* filename);
-CxSource CxCreate_SourceFromBuffer(CxScope bnd, const char *name, uint size, void* buffer);
-*/
+
+CxBundle CxCreate_Bundle(const char* name, const char* version);
+CxSource CxCreate_SourceFromString(CxBundle bnd, const char *name, const char *src);
+CxSource CxCreate_SourceFromFile(CxBundle bnd, const char* filename);
+CxSource CxCreate_SourceFromBuffer(CxBundle bnd, const char *name, uint size, void* buffer);
+
 
 #endif
 
